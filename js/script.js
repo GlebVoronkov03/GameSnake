@@ -15,7 +15,7 @@ var
     aw = ah           = 20, // размер яблока - apple size
     apples            = [], // список яблок - apple list
     trail             = [], // список элементов хвоста (след) - tail elements list (trail)
-    tail              = 100, // размер хвоста - tail size
+    tail              = 10, // размер хвоста - tail size
     tailSafeZone      = 20, // защита от самосъедания для зоны головы (safeZone) - self eating protection for head zone (safeZone)
     cooldown          = false, // является ключевым в режиме восстановления - is key in cooldown mode
     score             = 0; // текущий счет - current score
@@ -23,7 +23,7 @@ var
 // основной цыкл игры - game main loop
 function loop() {
     // логика - logic
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = 'darkslateblue';
     ctx.fillRect(0, 0, canv.width, canv.height);
 
     // скорость силы - force speed
@@ -41,10 +41,10 @@ function loop() {
         {py = 0;}
 
     // окрас земли в цвет элементов хвоста - color of the ground in the color of the elements of the tail
-    ctx.fillStyle = 'lime';
+    ctx.fillStyle = 'gold';
     for( var i = 0; i < trail.length; i++)
     {
-        ctx.fillStyle = trail[i].color || 'lime';
+        ctx.fillStyle = trail[i].color || 'gold';
         ctx.fillRect( trail[i].x, trail[i].y, pw, ph);
     }
     trail.push({ x: px, y: py, color: ctx.fillStyle});
@@ -62,11 +62,12 @@ function loop() {
         {
             for( var i = trail.length - tailSafeZone; i >= 0; i--)
                 {
-                    if( px < (trail[i].x + pw) 
+                    if( 
+                        px < (trail[i].x + pw) 
                         && 
                         px + pw > trail[i].x 
                         && 
-                        py > (trail[i].y + ph)
+                        py < (trail[i].y + ph)
                         && 
                         py + ph > trail[i].y
                     )
@@ -109,8 +110,8 @@ function loop() {
             {
                 // получил столкновение с яблоком - got collision with apple
                 apples.splice(a, 1); // удалить это яблоко из списка яблок - remove this apple from the apples list
-                tail += 10; // добавить длину хвоста - add tail length
-                speed += .1; // добавить немного скорости - add some speed
+                tail += 5; // добавить длину хвоста - add tail length
+                speed += .05; // добавить немного скорости - add some speed
                 spawnApple(); // созать ещё яблок - spawn another apples
                 break;
             }
@@ -157,9 +158,9 @@ function spawnApple(){
     }
     apples.push(newApple);
 
-    if( apple.length < 3 && ~~(Math.random() * 1000) > 700)
+    if( apples.length < 3 && ~~(Math.random() * 1000) > 800)
     {
-        // 30% шанс породить еще одно яблоко - 30% chance to spawn one more apple
+        // 20% шанс породить еще одно яблоко - 20% chance to spawn one more apple
         spawnApple();
     }
 }
@@ -168,7 +169,7 @@ function spawnApple(){
 function rc(){
     return '#' + ((~~(Math.random() * 255)).toString(16)) 
                + ((~~(Math.random() * 255)).toString(16)) 
-               + ((~~(Math.random() * 255)).toString(16))
+               + ((~~(Math.random() * 255)).toString(16));
 }
 
 // переключатель скоростей - velocity changer (controls)
@@ -182,17 +183,17 @@ function changeDirection(evt) {
     if(cooldown)
         {return false;}
     /*
-        4 directional movement - 4 направления движения
+        4 направления движения - 4 directional movement
     */
     if( evt.keyCode == 37 && !(xv > 0)) // стрелка влево - left arrow
-        {xv = -speed; yv = 0}
+        {xv = -speed; yv = 0;}
     if( evt.keyCode == 38 && !(yv > 0)) // стрелка вверх - top arrow
-        {xv = 0; yv = -speed}
+        {xv = 0; yv = -speed;}
     if( evt.keyCode == 39 && !(xv < 0)) // стрелка вправо - right arrow
-        {xv = speed; yv = 0}
+        {xv = speed; yv = 0;}
     if( evt.keyCode == 40 && !(yv < 0)) // стрелка вниз - down arrow
-        {xv = 0; yv = speed}
+        {xv = 0; yv = speed;}
     
     cooldown = true;
-    setTimeout(function() {cooldown = false;}, 100);
+    setTimeout( function() {cooldown = false;}, 100);
 }
