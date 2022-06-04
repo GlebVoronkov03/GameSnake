@@ -1,0 +1,15 @@
+html, body{
+    padding: 0;
+    margin: 0;
+}
+
+*{
+    background: #ddd;
+    padding: 50px;
+}
+
+canvas{
+    background: black;
+    margin: 0 auto;
+    display: block;
+}
