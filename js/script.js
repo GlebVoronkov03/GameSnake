@@ -23,7 +23,7 @@ var
 // основной цыкл игры - game main loop
 function loop() {
     // логика - logic
-    ctx.fillStyle = '#483D8B';
+    ctx.fillStyle = 'darkslateblue';
     ctx.fillRect(0, 0, canv.width, canv.height);
 
     // скорость силы - force speed
