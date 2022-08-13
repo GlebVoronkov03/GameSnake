@@ -111,7 +111,7 @@ function loop() {
                 // получил столкновение с яблоком - got collision with apple
                 apples.splice(a, 1); // удалить это яблоко из списка яблок - remove this apple from the apples list
                 tail += 5; // добавить длину хвоста - add tail length
-                speed += .02; // добавить немного скорости - add some speed
+                speed += .05; // добавить немного скорости - add some speed
                 spawnApple(); // созать ещё яблок - spawn another apples
                 break;
             }
